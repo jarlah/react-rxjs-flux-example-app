@@ -1,12 +1,23 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { connect } from 'react-rxjs-flux';
+import store, { inc$, dec$, CounterStore } from './store/counter';
 
-function App() {
+interface AppProps {
+  number: number;
+  inc: () => void;
+  dec: () => void;
+}
+
+function App(props: AppProps) {
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        <p>{props.number}</p>
+        <p><button onClick={props.inc}>Increase</button><button onClick={props.dec}>Decrease</button></p>
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
@@ -23,4 +34,11 @@ function App() {
   );
 }
 
-export default App;
+
+const props = (storeState: CounterStore): AppProps => ({
+  number: storeState.count,
+  inc: () => inc$.next(),
+  dec: () => dec$.next()
+});
+
+export default connect(store, props)(App);
