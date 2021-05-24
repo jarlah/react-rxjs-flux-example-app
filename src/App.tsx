@@ -11,7 +11,6 @@ interface AppProps {
 }
 
 function App(props: AppProps) {
-
   return (
     <div className="App">
       <header className="App-header">
@@ -35,10 +34,10 @@ function App(props: AppProps) {
 }
 
 
-const props = (storeState: CounterStore): AppProps => ({
+const mapStateToProps = (storeState: CounterStore): AppProps => ({
   number: storeState.count,
   inc: () => inc$.next(),
   dec: () => dec$.next()
 });
 
-export default connect(store, props)(App);
+export default connect(store, mapStateToProps)(App);
